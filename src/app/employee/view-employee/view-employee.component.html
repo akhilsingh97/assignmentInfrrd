@@ -1,0 +1,195 @@
+<p-table
+  #dt2
+  [value]="data"
+  dataKey="id"
+  [rows]="10"
+  editMode="row"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [paginator]="true"
+  [globalFilterFields]="['name', 'email']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+        <p-iconField iconPosition="left" class="ml-auto">
+            <p-inputIcon>
+                <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input 
+                pInputText 
+                type="text" 
+                (input)="dt2.filterGlobal($any($event.target).value, 'contains')" 
+                placeholder="Search keyword" />
+        </p-iconField>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Company Name</th>
+      <th>Email ID</th>
+      <th>Contact Number</th>
+      <th>Department</th>
+      <th></th>
+    </tr>
+    <tr>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="name"
+          placeholder="Search by name"
+          ariaLabel="Filter Name"
+        />
+      </th>
+      <th></th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="email"
+          placeholder="Search by email"
+          ariaLabel="Filter Email"
+        />
+      </th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-employee
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr [pEditableRow]="employee">
+      <td>
+        <p-avatar
+          label="{{ employee.avatar.code }}"
+          styleClass="mr-2"
+          [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+          shape="circle"
+        />
+        <span class="ml-1 vertical-align-middle">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input
+                pInputText
+                type="text"
+                [(ngModel)]="employee.name"
+                required
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ employee.name }}
+            </ng-template>
+          </p-cellEditor>
+        </span>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="employee.companyName"
+              required
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ employee.companyName }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="employee.email"
+              required
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ employee.email }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="employee.contact"
+              required
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ employee.contact }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-dropdown
+              [options]="departments"
+              optionLabel="name"
+              appendTo="body"
+              [(ngModel)]="employee.department"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ employee.department.name }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <button
+          *ngIf="!editing"
+          pButton
+          pRipple
+          type="button"
+          pInitEditableRow
+          icon="pi pi-pencil"
+          (click)="onRowEditInit(employee)"
+          class="p-button-rounded p-button-text"
+        ></button>
+        <p-button
+          *ngIf="!editing"
+          icon="pi pi-times"
+          (onClick)="confirm2($event, employee)"
+          severity="danger"
+        />
+        <button
+          *ngIf="editing"
+          pButton
+          pRipple
+          type="button"
+          pSaveEditableRow
+          icon="pi pi-check"
+          (click)="onRowEditSave(employee)"
+          class="p-button-rounded p-button-text p-button-success mr-2"
+        ></button>
+        <button
+          *ngIf="editing"
+          pButton
+          pRipple
+          type="button"
+          pCancelEditableRow
+          icon="pi pi-times"
+          (click)="onRowEditCancel(employee, ri)"
+          class="p-button-rounded p-button-text p-button-danger"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No employee data found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-confirmDialog />

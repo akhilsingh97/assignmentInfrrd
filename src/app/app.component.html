@@ -1,0 +1,16 @@
+<div class="add"><p-button icon="pi pi-plus" label="Add New" (onClick)="addEmployee()" /></div>
+
+<app-create-employee
+  *ngIf="createFlag"
+  [createFlag]="createFlag"
+  (saveDataEvt)="addItem($event)"
+  (removeDataEvt)="deleteEmployee($event)"
+>
+</app-create-employee>
+
+<app-view-employee
+  [data]="empData"
+  (editDataEvt)="editEmployee($event)"
+  (deleteDataEvt)="deleteEmployee($event)"
+>
+</app-view-employee>

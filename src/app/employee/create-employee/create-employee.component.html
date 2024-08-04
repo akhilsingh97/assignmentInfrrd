@@ -1,0 +1,80 @@
+  <p-dialog header="Add New Employee" [modal]="true" [(visible)]="createFlag" [style]="{ width: '25rem' }">
+
+    <form [formGroup]="userForm" (ngSubmit)="addUser()" >
+        <div class="field">
+          <label for="name" class="block">Name</label>
+          <input type="text" pInputText placeholder="Name" formControlName="name" />
+          <small class="p-error block" *ngIf="
+              userForm.get('name')?.invalid && userForm.get('name')?.dirty
+            ">
+        Name is required</small>
+        </div>
+        <div class="field">
+          <label for="companyName" class="block">Company  Name</label>
+          <input type="text" pInputText placeholder="Company Name" formControlName="companyName" />
+          <small class="p-error block" *ngIf="
+              userForm.get('companyName')?.invalid && userForm.get('companyName')?.dirty
+            ">
+            Company Name is required</small>
+        </div>
+        <div class="field">
+            <label for="email" class="block">Email Id</label>
+            <input type="email" pInputText placeholder="Email Id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" formControlName="email" />
+            <small class="p-error block" *ngIf="
+                userForm.get('email')?.invalid && userForm.get('email')?.dirty
+              ">
+              Email Id is required</small>
+          </div>
+          <div class="field">
+            <label for="companyName" class="block">Contact Number</label>
+            <input type="tel" pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$" pInputText placeholder="Contact Number" formControlName="contact" />
+            <small class="p-error block" *ngIf="
+                userForm.get('contact')?.invalid && userForm.get('contact')?.dirty
+              ">
+              Contact Number is required</small>
+          </div>
+          <div class="field">
+            <label for="department" class="block">Department</label>
+            <p-dropdown 
+                [options]="departments" 
+                [(ngModel)]="department" 
+                optionLabel="name" 
+                formControlName="department"
+                placeholder="Select a Department" />
+            <small class="p-error block" *ngIf="
+                userForm.get('department')?.invalid && userForm.get('department')?.dirty
+              ">
+              Department is required</small>
+          </div>
+
+          <div class="field">
+            <label for="avatar" class="block">Avatar</label>
+            <p-dropdown 
+                [options]="avatarsList" 
+                [(ngModel)]="avatar" 
+                optionLabel="label" 
+                formControlName="avatar"
+                placeholder="Select an Avatar" >
+                <ng-template pTemplate="selectedItem">
+                    <div class="flex align-items-center gap-2" *ngIf="avatar">
+                    <p-avatar 
+                        label="{{avatar.code}}" 
+                        styleClass="mr-2" 
+                        [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" 
+                        shape="circle" />
+                    </div>
+                </ng-template>
+                </p-dropdown>
+            <small class="p-error block" *ngIf="
+                userForm.get('avatar')?.invalid && userForm.get('avatar')?.dirty
+              ">
+              Department is required</small>
+          </div>
+          
+    
+    
+        <button pButton type="submit" label="Submit" [disabled]="userForm.invalid"></button>
+      </form>
+</p-dialog>
+
+
